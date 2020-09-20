@@ -4,6 +4,7 @@ import rules.IPrice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *  Order Class.This class helps to
@@ -18,17 +19,19 @@ public class Order implements IPrice {
         return products;
     }
 
-    public List<Product> addProduct(Product p){
+    public Order addProduct(Product p){
         if(getProducts() == null){
             this.products = new ArrayList<Product>();
         }
         if(p!= null){
             this.products.add(p);
         }
-        return this.products;
+        return this;
     }
 
     public double getPrice() {
-        return 0;
+       Double totalPrice = products.stream().map(product -> product.getPrice()).collect(Collectors.summingDouble(Double::doubleValue));
+       System.out.println("Total Price is"+totalPrice);
+       return totalPrice;
     }
 }
